@@ -7,9 +7,10 @@
 //Update a genre
 //Delete a genre
 
-
+const Joi = require('joi')
 const express = require('express')
 const app = express()
+app.use(express.json())
 
 const port = process.env.PORT || 3000
 
@@ -33,11 +34,27 @@ app.get('/api/movies/:id', (req, res) => {
 })
 
 app.post('/api/movies', (req, res) => {
+    const {error} = validateMovie(req.body)
+    if (error){
+        return res.status(400).send(error.details[0].message)
+    }
+
     const movie = {
         id:movies.length + 1,
         name:req.body.name
     }
+
+    movies.push(movie)
+    res.send(movie)
 })
+
+function validateMovie(movie){
+    const schema = Joi.object({
+        name:Joi.string().min(3).required()
+    })
+
+    return schema.validate(movie)
+}
 
 app.listen(port, (req, res) => {
     console.log(`listening on port ${port}...`)
