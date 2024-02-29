@@ -2,8 +2,7 @@
 //URL : http://vidly.com/api/genres
 //Vidly app backend
 //Manage list of genres
-//Each movie has a genre
-//Get all genres
+//Get all genres √
 //Create a genre
 //Update a genre
 //Delete a genre
@@ -31,6 +30,13 @@ app.get('/api/movies/:id', (req, res) => {
     const movie = movies.find(m => m.id === parseInt(req.params.id))
     if (!movie) return res.status(404).send("Movie could not be found")
     res.send(movie)
+})
+
+app.post('/api/movies', (req, res) => {
+    const movie = {
+        id:movies.length + 1,
+        name:req.body.name
+    }
 })
 
 app.listen(port, (req, res) => {
