@@ -1,3 +1,14 @@
+//Deliverabilities
+//URL : http://vidly.com/api/genres
+//Vidly app backend
+//Manage list of genres
+//Each movie has a genre
+//Get all genres
+//Create a genre
+//Update a genre
+//Delete a genre
+
+
 const express = require('express')
 const app = express()
 
@@ -10,11 +21,16 @@ const movies = [
 ]
 
 app.get('/', (req, res) => {
-    res.send('hello world')
+    res.send('Welcome to Vidly App')
 })
 
 app.get('/api/movies', (req, res) => {
     res.send(movies)
+})
+app.get('/api/movies/:id', (req, res) => {
+    const movie = movies.find(m => m.id === parseInt(req.params.id))
+    if (!movie) return res.status(404).send("Movie could not be found")
+    res.send(movie)
 })
 
 app.listen(port, (req, res) => {
